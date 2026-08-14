@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Email Spam Classifier</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                ✉
+            </div>
+
+            <div class="logo-text">
+                <span>Email Spam</span>
+                <strong>Classifier</strong>
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <a href="#home" class="active">
+                Home
+            </a>
+
+            <a href="#about">
+                About
+            </a>
+
+            <a href="#how">
+                How It Works
+            </a>
+
+            <button
+                class="about-btn"
+                onclick="scrollToSection('about')">
+
+                ⓘ About Project
+
+            </button>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ================= HOME ================= -->
+
+    <main id="home" class="main-container">
+
+
+        <!-- LEFT SIDE -->
+
+        <section class="hero-section">
+
+            <div class="small-title">
+                ✨ MACHINE LEARNING POWERED
+            </div>
+
+
+            <h1>
+
+                Smart Email
+                <span>Spam</span>
+                Detector
+
+            </h1>
+
+
+            <p class="hero-description">
+
+                Detect whether an email is
+                <b class="spam-text">Spam</b>
+                or
+                <b class="safe-text">Not Spam</b>
+                using Machine Learning.
+
+            </p>
+
+
+            <!-- FEATURE 1 -->
+
+            <div class="feature">
+
+                <div class="feature-icon purple">
+                    🤖
+                </div>
+
+                <div>
+
+                    <h3>
+                        AI Powered
+                    </h3>
+
+                    <p>
+                        Machine learning model
+                        for accurate prediction
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- FEATURE 2 -->
+
+            <div class="feature">
+
+                <div class="feature-icon green">
+                    🛡️
+                </div>
+
+                <div>
+
+                    <h3>
+                        Secure & Private
+                    </h3>
+
+                    <p>
+                        Your email is processed securely
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- FEATURE 3 -->
+
+            <div class="feature">
+
+                <div class="feature-icon blue">
+                    ⚡
+                </div>
+
+                <div>
+
+                    <h3>
+                        Instant Results
+                    </h3>
+
+                    <p>
+                        Get results in just a second
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="mail-illustration">
+                📩
+            </div>
+
+        </section>
+
+
+
+        <!-- RIGHT SIDE -->
+
+        <section class="right-section">
+
+
+            <!-- EMAIL CARD -->
+
+            <div class="email-card">
+
+                <div class="big-icon">
+                    ✉️
+                </div>
+
+
+                <h2>
+                    Check Your Email
+                </h2>
+
+
+                <p>
+                    Paste your email content below
+                    and check whether it is spam.
+                </p>
+
+
+                <!-- TEXTAREA -->
+
+                <div class="textarea-container">
+
+                    <textarea
+                        id="emailText"
+                        maxlength="5000"
+                        placeholder="Paste your email content here..."
+                    ></textarea>
+
+
+                    <span id="counter">
+                        0 / 5000
+                    </span>
+
+                </div>
+
+
+                <!-- DETECT -->
+
+                <button
+                    class="detect-btn"
+                    onclick="checkEmail()">
+
+                    🔍
+                    <span>
+                        Detect Spam
+                    </span>
+
+                </button>
+
+
+                <!-- CLEAR -->
+
+                <button
+                    class="clear-btn"
+                    onclick="clearEmail()">
+
+                    ✕
+                    <span>
+                        Clear Email
+                    </span>
+
+                </button>
+
+            </div>
+
+
+
+            <!-- RESULT CARD -->
+
+            <div class="result-card">
+
+
+                <div class="result-heading">
+
+                    <span></span>
+
+                    <h2>
+                        Result
+                    </h2>
+
+                    <span></span>
+
+                </div>
+
+
+                <!-- DEFAULT -->
+
+                <div
+                    id="default-result"
+                    class="default-result">
+
+                    <div class="result-mail">
+                        📧
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Result will appear here
+                        </h3>
+
+                        <p>
+
+                            <span class="spam-text">
+                                Spam
+                            </span>
+
+                            or
+
+                            <span class="safe-text">
+                                Not Spam
+                            </span>
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ACTUAL RESULT -->
+
+                <div
+                    id="result"
+                    class="result hidden">
+
+                    <div
+                        id="resultIcon"
+                        class="result-icon">
+                    </div>
+
+
+                    <div>
+
+                        <h2 id="resultText">
+                        </h2>
+
+                        <p id="confidence">
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ERROR -->
+
+            <p id="error"></p>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- ================= ABOUT ================= -->
+
+    <section
+        id="about"
+        class="info-section">
+
+        <div class="info-card">
+
+
+            <div class="info-icon">
+                🛡️
+            </div>
+
+
+            <h2>
+                About Project
+            </h2>
+
+
+            <p>
+
+                Email Spam Classifier is a
+                Machine Learning based web
+                application that identifies
+                whether an email message is
+                Spam or Not Spam.
+
+            </p>
+
+
+            <p>
+
+                The system analyzes the email
+                content and uses a trained
+                Machine Learning model to
+                predict the category with
+                a confidence score.
+
+            </p>
+
+
+            <div class="about-features">
+
+                <div>
+                    <strong>
+                        🤖 Machine Learning
+                    </strong>
+
+                    <span>
+                        Trained classification model
+                    </span>
+                </div>
+
+
+                <div>
+                    <strong>
+                        📧 Email Analysis
+                    </strong>
+
+                    <span>
+                        Analyzes email message content
+                    </span>
+                </div>
+
+
+                <div>
+                    <strong>
+                        📊 Confidence
+                    </strong>
+
+                    <span>
+                        Shows prediction confidence
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= HOW IT WORKS ================= -->
+
+    <section
+        id="how"
+        class="info-section">
+
+        <div class="info-card">
+
+
+            <div class="info-icon">
+                ⚙️
+            </div>
+
+
+            <h2>
+                How It Works
+            </h2>
+
+
+            <p class="how-description">
+
+                Our system uses a simple
+                Machine Learning workflow
+                to classify your email.
+
+            </p>
+
+
+            <div class="steps">
+
+
+                <!-- STEP 1 -->
+
+                <div class="step">
+
+                    <span>
+                        1
+                    </span>
+
+                    <div>
+
+                        <h3>
+                            Enter Email
+                        </h3>
+
+                        <p>
+                            Paste your email message
+                            into the text box.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STEP 2 -->
+
+                <div class="step">
+
+                    <span>
+                        2
+                    </span>
+
+                    <div>
+
+                        <h3>
+                            Detect Spam
+                        </h3>
+
+                        <p>
+                            Click the Detect Spam
+                            button to analyze the email.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STEP 3 -->
+
+                <div class="step">
+
+                    <span>
+                        3
+                    </span>
+
+                    <div>
+
+                        <h3>
+                            Machine Learning Analysis
+                        </h3>
+
+                        <p>
+                            The trained model analyzes
+                            the email content.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STEP 4 -->
+
+                <div class="step">
+
+                    <span>
+                        4
+                    </span>
+
+                    <div>
+
+                        <h3>
+                            Get Result
+                        </h3>
+
+                        <p>
+                            The system displays Spam or
+                            Not Spam with confidence.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <div class="footer-logo">
+            🛡️
+        </div>
+
+
+        <div>
+
+            <strong>
+                Email Spam Classifier
+            </strong>
+
+            <p>
+                Made with ❤️ using Machine Learning
+            </p>
+
+        </div>
+
+    </footer>
+
+
+
+<script>
+
+
+/* =================================
+   CHARACTER COUNTER
+================================= */
+
+const emailText =
+    document.getElementById("emailText");
+
+
+const counter =
+    document.getElementById("counter");
+
+
+emailText.addEventListener(
+    "input",
+    function () {
+
+        counter.textContent =
+            this.value.length + " / 5000";
+
+    }
+);
+
+
+
+/* =================================
+   NAVIGATION
+================================= */
+
+function scrollToSection(sectionId) {
+
+    document
+        .getElementById(sectionId)
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+
+
+/* =================================
+   DETECT EMAIL
+================================= */
+
+async function checkEmail() {
+
+
+    const message =
+        document
+        .getElementById("emailText")
+        .value
+        .trim();
+
+
+    const result =
+        document.getElementById("result");
+
+
+    const error =
+        document.getElementById("error");
+
+
+    const defaultResult =
+        document.getElementById("default-result");
+
+
+    /* Clear old error */
+
+    error.textContent = "";
+
+
+    /* Empty check */
+
+    if (!message) {
+
+        error.textContent =
+            "Please enter an email message.";
+
+        return;
+
+    }
+
+
+    /* Hide old result */
+
+    result.className =
+        "result hidden";
+
+
+    try {
+
+
+        const response =
+            await fetch("/predict", {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json"
+
+                },
+
+                body: JSON.stringify({
+
+                    message: message
+
+                })
+
+            });
+
+
+        const data =
+            await response.json();
+
+
+        /* Server error */
+
+        if (!response.ok) {
+
+            error.textContent =
+                data.error ||
+                "Something went wrong.";
+
+            return;
+
+        }
+
+
+        const resultIcon =
+            document.getElementById(
+                "resultIcon"
+            );
+
+
+        const resultText =
+            document.getElementById(
+                "resultText"
+            );
+
+
+        const confidence =
+            document.getElementById(
+                "confidence"
+            );
+
+
+        /* Hide default */
+
+        defaultResult.style.display =
+            "none";
+
+
+        /* Show result */
+
+        result.className =
+            "result " + data.status;
+
+
+        /* Result icon */
+
+        if (data.status === "spam") {
+
+            resultIcon.textContent =
+                "⚠️";
+
+        }
+
+        else {
+
+            resultIcon.textContent =
+                "✅";
+
+        }
+
+
+        /* Result text */
+
+        resultText.textContent =
+            data.result;
+
+
+        /* Confidence */
+
+        confidence.textContent =
+            "Confidence: " +
+            data.confidence +
+            "%";
+
+
+    }
+
+
+    catch (error) {
+
+        document
+            .getElementById("error")
+            .textContent =
+            "Unable to connect to the server.";
+
+    }
+
+}
+
+
+
+/* =================================
+   CLEAR EMAIL
+================================= */
+
+function clearEmail() {
+
+
+    /* Clear message */
+
+    document
+        .getElementById("emailText")
+        .value = "";
+
+
+    /* Reset counter */
+
+    document
+        .getElementById("counter")
+        .textContent =
+        "0 / 5000";
+
+
+    /* Hide result */
+
+    document
+        .getElementById("result")
+        .className =
+        "result hidden";
+
+
+    /* Show default */
+
+    document
+        .getElementById("default-result")
+        .style.display =
+        "flex";
+
+
+    /* Clear error */
+
+    document
+        .getElementById("error")
+        .textContent = "";
+
+}
+
+</script>
+
+</body>
+
+</html>
